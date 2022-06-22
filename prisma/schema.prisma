@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  Id                    Int       @id @default(autoincrement())
+  PoiId                 Int
+  Title                 String    @db.VarChar(31)
+  Description           String?   @db.VarChar(1023)
+  ImageUrl              String?   @db.VarChar(255)
+  EventType             String?   @db.VarChar(255)
+  Date                  DateTime? @db.Timestamp(0)
+  TimeDuration          DateTime? @db.Time(0)
+  EventUrl              String?   @db.VarChar(255)
+  Price                 String?   @db.VarChar(255)
+  PreregisterNeccessary Boolean?
+  Address               String?   @db.VarChar(255)
+  Organization          String?   @db.VarChar(255)
+  Season                season?
+  POI                   Poi       @relation(fields: [PoiId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Itinerary {
+  Id                Int              @id @default(autoincrement())
+  Title             String           @db.VarChar(31)
+  Description       String?          @db.VarChar(1023)
+  ImageUrl          String?          @db.VarChar(255)
+  TotalDuration     String?          @db.VarChar(255)
+  Journey           Json?
+  SuggestedAudience Json?
+  PoiToItinerary    PoiToItinerary[]
+}
+
+model Poi {
+  Id             Int              @id @default(autoincrement())
+  Title          String           @db.VarChar(31)
+  Description    String?          @db.VarChar(1023)
+  ImageUrl       String?          @db.VarChar(255)
+  Address        String?          @db.VarChar(255)
+  OpeningHours   String?          @db.VarChar(255)
+  Tags           Json?
+  Event          Event[]
+  PoiToItinerary PoiToItinerary[]
+
+  @@map("POI")
+}
+
+model PoiToItinerary {
+  Id          Int       @id @default(autoincrement())
+  PoiId       Int
+  ItineraryId Int
+  Itinerary   Itinerary @relation(fields: [ItineraryId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+  POI         Poi       @relation(fields: [PoiId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Service {
+  id           Int         @id @default(autoincrement())
+  Title        String?     @db.VarChar(31)
+  ImageUrl     String?     @db.VarChar(255)
+  TypeId       Int
+  OpeningHours String?     @db.VarChar(255)
+  Address      String?     @db.VarChar(255)
+  ServiceType  ServiceType @relation(fields: [TypeId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ServiceType {
+  Id           Int       @id @default(autoincrement())
+  Introduction String?   @db.VarChar(255)
+  Title        String?   @db.VarChar(255)
+  Service      Service[]
+}
+
+enum season {
+  Spring
+  Summer
+  Fall
+  Winter
+}
