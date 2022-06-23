@@ -1,5 +1,6 @@
 import express from "express"
 import {
+	initDb,
 	getAllItineraries,
 	getItinerary,
 	getAllPois,
@@ -15,6 +16,15 @@ import {
 const app = express()
 
 app.use(express.json())
+
+app.get("/initdb", (_req, res) => {
+	try {
+		initDb()
+	} catch (error) {
+		res.json(error)
+	}
+	res.json({ done: true })
+})
 
 app.get("/itinerary", async (_req, res) => {
 	const itineraries = await getAllItineraries()

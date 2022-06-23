@@ -1,6 +1,20 @@
 import { PrismaClient, season } from "@prisma/client"
+import * as initData from "./initialize"
 
 const prisma = new PrismaClient()
+
+// initialize db with data.
+export const initDb = () => {
+	// creating each Itinerary separately. prisma cannot access relations in a 'createMany' query
+	initData.itineraries.forEach(async (itinerary) => {
+		await prisma.itinerary.create({ data: itinerary })
+	})
+
+	// creating each serviceType with Services separately. same reason as above
+	initData.serviceTypesWithServices.forEach(async (serviceTypeWithServices) => {
+		await prisma.serviceType.create({ data: serviceTypeWithServices })
+	})
+}
 
 export const getAllItineraries = async () => {
 	return await prisma.itinerary.findMany()
