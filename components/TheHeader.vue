@@ -1,39 +1,30 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-light px-3 header">
-		<a class="navbar-brand" href="/">The Cat Shelter</a>
-		<button
-			class="navbar-toggler"
-			type="button"
-			data-bs-toggle="collapse"
-			data-bs-target="#navbarToggler"
-			aria-controls="navbarToggler"
-			aria-expanded="false"
-			aria-label="Toggle navigation"
-		>
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarToggler">
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li v-for="(navItem, navItemIndex) of headerList" :key="`navItem${navItemIndex}`" class="nav-item">
-					<nuxt-link :to="navItem.path" class="nav-link">
-						{{ navItem.name }}
-					</nuxt-link>
-				</li>
-			</ul>
+	<nav class="navbar navbar-expand-lg bg-light shadow-sm mb-4">
+		<div class="container">
+			<nuxt-link :to="'/'" class="navbar-brand">Venezia</nuxt-link>
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-bs-toggle="collapse"
+				data-bs-target="#navbar"
+				aria-controls="navbar"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li v-for="(navItem, navItemIndex) of headerList" :key="`navItem${navItemIndex}`" class="nav-item">
+						<nuxt-link :to="navItem.path" class="nav-link" :class="{ active: navItem.path == $route.path }">
+							{{ navItem.name }}
+						</nuxt-link>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</nav>
 </template>
-
-<style scoped>
-	.header {
-		background: orange;
-	}
-	.logo {
-		color: white;
-		font-size: 32px;
-	}
-</style>
 
 <script>
 	export default {
@@ -41,18 +32,14 @@
 		data() {
 			return {
 				headerList: [
-					{
-						name: "Home",
-						path: "/"
-					},
-					{
-						name: "List",
-						path: "/list"
-					},
-					{
-						name: "About",
-						path: "/about"
-					}
+					{ name: "Home", path: "/" },
+					{ name: "Itineraries", path: "/itineraries" },
+					{ name: "Point of interest", path: "/pois" },
+					{ name: "Events", path: "/events" },
+					{ name: "Services", path: "/services" },
+					{ name: "Town", path: "/town" },
+					{ name: "About us", path: "/about" },
+					{ name: "Contact us", path: "/Contact" }
 				]
 			}
 		}
