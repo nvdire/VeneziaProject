@@ -9,7 +9,7 @@ export default {
 		}
 	],
 	head: {
-		title: "lesson16",
+		title: "Venezia Project",
 		htmlAttrs: {
 			lang: "en"
 		},
